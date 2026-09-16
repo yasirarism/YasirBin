@@ -1,0 +1,91 @@
+{{define "head"}}
+<!doctype html>
+<html lang="en" class="{{.ThemeClass}}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>>_$ ./&lt;YasirBin{0x1337}/&gt; | Save and share your text to anyone for free</title>
+<meta name="description" content="A simple, free open-source pastebin for your text file. Paste, save and share your text with the world.">
+<meta key="og:title" property="og:title" content=">_$ ./&lt;YasirBin{0x1337}/&gt;">
+<meta key="og:site_name" property="og:site_name" content=">_$ ./&lt;YasirBin{0x1337}/&gt;">
+<meta key="og:description" property="og:description" content="A simple, free open-source pastebin for your text file. Paste, save and share your text with the world.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/images/favicon.svg">
+<meta property="twitter:card" content="summary_large_image">
+<meta key="twitter:title" property="twitter:title" content=">_$ ./&lt;YasirBin{0x1337}/&gt;">
+<meta property="twitter:image" content="/images/favicon.svg">
+<meta key="twitter:description" property="twitter:description" content="A simple, free open-source pastebin for your text file. Paste, save and share your text with the world.">
+<meta name="theme-color" content="#b78f30">
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="manifest" href="/manifest.json">
+<!-- HTMX -->
+<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+<!-- Highlight.js -->
+<link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/dracula.min.css">
+<link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/one-light.min.css" disabled="disabled">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: { extend: {} }
+}
+</script>
+<!-- CSS -->
+<link rel="stylesheet" href="/assets/globals.css">
+<link rel="stylesheet" href="/assets/theme.css">
+</head>
+<body class="bg-primary text-primary">
+<div class="fixed bottom-12 right-5 z-[100]">
+<button id="theme-toggle" class="bg-secondary text-primary p-2 rounded-full">
+<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+</svg>
+</button>
+</div>
+{{end}}
+
+{{define "logo"}}
+<a href="/" class="text-base md:text-2xl py-2 font-mono">
+<span class="text-logo-green hidden md:inline">&gt;_$ ./</span>&lt;<span class="text-logo-pink">Yasir</span><span class="text-logo-yellow">Bin</span><span class="text-logo-cyan">{0x1337}</span>/&gt;
+</a>
+{{end}}
+
+{{define "footer"}}
+<footer hx-boost="true" class="flex justify-between mx-8 py-1 bg-primary">
+<a href="https://yasir.eu.org" class="hover:underline hover:text-hover">Copyright &copy; 2025 Yasir Aris M</a>
+<a href="/about" class="hover:underline hover:text-hover">About</a>
+</footer>
+{{end}}
+
+{{define "scripts"}}
+<script>
+function setupPage() {
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle && !themeToggle.dataset.initialized) {
+    const html = document.querySelector('html');
+    themeToggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      const isDark = html.classList.contains('dark');
+      const hljsDark = document.getElementById('hljs-dark');
+      const hljsLight = document.getElementById('hljs-light');
+      if (hljsDark) hljsDark.disabled = !isDark;
+      if (hljsLight) hljsLight.disabled = isDark;
+      fetch('/api/theme', { method: 'POST' });
+    });
+    themeToggle.dataset.initialized = 'true';
+  }
+}
+document.addEventListener('DOMContentLoaded', function() {
+  const isDark = document.querySelector('html').classList.contains('dark');
+  const hljsDark = document.getElementById('hljs-dark');
+  const hljsLight = document.getElementById('hljs-light');
+  if (hljsDark) hljsDark.disabled = !isDark;
+  if (hljsLight) hljsLight.disabled = isDark;
+  setupPage();
+});
+document.body.addEventListener('htmx:load', setupPage);
+</script>
+{{end}}

@@ -1,0 +1,53 @@
+:root {
+  --color-text-primary: #000;
+  --color-text-secondary: #333;
+  --color-text-hover: #555;
+  --color-bg-primary: #fff;
+  --color-bg-secondary: #f4f4f4;
+  --color-border-primary: #e5e7eb;
+  --color-bg-accent: #4f46e5;
+  --color-text-accent: #fff;
+  --color-bg-destructive: #dc2626;
+  --color-text-destructive-on-bg: #fff;
+  --color-text-destructive: #dc2626;
+
+  --color-logo-green: #16a34a;
+  --color-logo-pink: #db2777;
+  --color-logo-yellow: #ca8a04;
+  --color-logo-cyan: #0891b2;
+}
+
+.dark {
+  --color-text-primary: #f8f8f2;
+  --color-text-secondary: #bd93f9;
+  --color-text-hover: #ff79c6;
+  --color-bg-primary: #282a36;
+  --color-bg-secondary: #44475a;
+  --color-border-primary: #6272a4;
+  --color-bg-accent: #bd93f9;
+  --color-text-accent: #f8f8f2;
+  --color-bg-destructive: #ff5555;
+  --color-text-destructive-on-bg: #f8f8f2;
+  --color-text-destructive: #ff5555;
+
+  --color-logo-green: #50fa7b;
+  --color-logo-pink: #ff79c6;
+  --color-logo-yellow: #f1fa8c;
+  --color-logo-cyan: #8be9fd;
+}
+
+/* Themed Scrollbar */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-bg-secondary);
+  border-radius: 5px;
+  border: 2px solid var(--color-bg-primary);
+}

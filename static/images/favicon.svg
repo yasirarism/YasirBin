@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="YasirBin favicon">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#1e1e2e" />
+      <stop offset="1" stop-color="#282a36" />
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="32" fill="url(#g)" />
+  <text x="32" y="22" font-family="monospace, monospace" font-size="10" font-weight="700" fill="#ff79c6" text-anchor="middle" dominant-baseline="middle">&gt;_$</text>
+  <text x="32" y="40" font-family="monospace, monospace" font-size="10" font-weight="600" fill="#ff79c6" text-anchor="middle" dominant-baseline="middle">&lt;YasirBin/&gt;</text>
+  <circle cx="32" cy="32" r="31.5" fill="none" stroke="#000" stroke-opacity="0.3" />
+</svg>

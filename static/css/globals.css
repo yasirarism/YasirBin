@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap");
+
+html,
+body {
+  font-family: "Fira Code", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+pre {
+  font-family: "Fira Code", monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Code table with line numbers */
+.code-table {
+  font-family: "Fira Code", monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.code-table .line-number {
+  font-size: 0.8em;
+  min-width: 3em;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: top;
+  position: sticky;
+  left: 0;
+  background: var(--color-bg-primary);
+}
+
+.code-table .line-content pre {
+  margin: 0;
+  padding: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.code-table .line-content code {
+  font-family: inherit;
+}
+
+/* Override hljs background to be transparent */
+.code-table .hljs,
+.code-table code.hljs {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+::-webkit-input-placeholder {
+  color: white;
+}
+
+
+:focus {
+  outline: none;
+}
+
+::placeholder {
+  color: #d5e2e6;
+}
+
+li::marker {
+  color: #a2acaf;
+  padding-left: 1rem;
+}

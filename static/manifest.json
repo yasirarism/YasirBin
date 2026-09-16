@@ -1,0 +1,17 @@
+{
+  "name": "YasirBin",
+  "short_name": "YasirBin | A simple, free open-source pastebin for your text file.",
+  "description": "YasirBin is a free pastebin to store and share your text file easily.",
+  "icons": [
+    {
+      "src": "/images/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable any"
+    }
+  ],
+  "theme_color": "#b78f30",
+  "background_color": "#1b1e2b",
+  "display": "standalone",
+  "start_url": "/"
+}

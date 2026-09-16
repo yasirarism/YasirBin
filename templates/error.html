@@ -1,0 +1,11 @@
+{{template "head" .}}
+<div class="flex items-center justify-center h-screen bg-primary text-primary">
+<div class="p-8 bg-secondary rounded-lg shadow-lg text-center">
+<h1 class="text-3xl font-bold mb-4">😢 {{.Error}}</h1>
+<p class="mb-6 text-secondary">The document you're looking for doesn't exist or has expired.</p>
+<a href="/" class="bg-accent hover:bg-opacity-80 text-accent font-bold py-2 px-6 rounded">Go Home</a>
+</div>
+</div>
+{{template "scripts" .}}
+</body>
+</html>
