@@ -3,10 +3,13 @@
 {{template "logo" .}}
 <div class="flex items-center gap-4">
 <div class="flex justify-center items-center gap-5">
-<button onclick="copyURL()" class="flex items-center gap-2 opacity-60 hover:cursor-pointer hover:opacity-100 fill-primary text-primary">
+<button id="copy-btn" onclick="copyURL()" class="flex items-center gap-2 opacity-60 hover:cursor-pointer hover:opacity-100 fill-primary text-primary">
 <p class="hidden md:block">/{{.Slug}}</p>
-<svg width="28px" height="28px" viewBox="-32 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-details="Copy url to clipboard">
+<svg id="copy-icon" width="28px" height="28px" viewBox="-32 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-details="Copy url to clipboard">
 <path d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path>
+</svg>
+<svg id="check-icon" width="28px" height="28px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none">
+<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
 </svg>
 </button>
 <a href="/raw/{{.Slug}}" hx-boost="false" class="m-0 opacity-60 hover:cursor-pointer hover:opacity-100 fill-primary text-primary">
@@ -23,7 +26,7 @@
 <tbody>
 {{range .Lines}}
 <tr class="code-line hover:bg-secondary/30">
-<td class="line-number select-none text-right pr-4 pl-3 py-0 text-secondary/60 border-r border-primary/10 align-top whitespace-nowrap w-1" data-line="{{.Number}}">{{.Number}}</td>
+<td class="line-number select-none text-right pr-4 pl-3 py-0 text-secondary/60 align-top whitespace-nowrap w-1" data-line="{{.Number}}">{{.Number}}</td>
 <td class="line-content pl-4 pr-4 py-0"><pre class="m-0 p-0"><code class="!p-0 !bg-transparent">{{.Content}}</code></pre></td>
 </tr>
 {{end}}
@@ -34,7 +37,32 @@
 {{template "footer" .}}
 <script>
 function copyURL() {
-  navigator.clipboard.writeText(window.location.href);
+  var url = window.location.href;
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(url).then(showCopied).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
+  }
+  function fallbackCopy() {
+    var t = document.createElement('textarea');
+    t.value = url;
+    t.style.position = 'fixed';
+    t.style.left = '-9999px';
+    document.body.appendChild(t);
+    t.focus();
+    t.select();
+    try { document.execCommand('copy'); showCopied(); } catch(e) {}
+    document.body.removeChild(t);
+  }
+  function showCopied() {
+    var ci = document.getElementById('copy-icon');
+    var ch = document.getElementById('check-icon');
+    if (ci && ch) {
+      ci.style.display = 'none';
+      ch.style.display = 'block';
+      setTimeout(function() { ci.style.display = 'block'; ch.style.display = 'none'; }, 2000);
+    }
+  }
 }
 
 (function() {
