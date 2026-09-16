@@ -27,6 +27,7 @@ type Handler struct {
 func New(db *database.DB, cfg *config.Config) *Handler {
 	funcMap := template.FuncMap{
 		"add": func(a, b int) int { return a + b },
+		"currentYear": func() int { return time.Now().Year() },
 	}
 	tmpl := template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/*.html"))
 	return &Handler{db: db, cfg: cfg, tmpl: tmpl}
@@ -298,6 +299,24 @@ func (h *Handler) About(w http.ResponseWriter, r *http.Request) {
 		ThemeClass: theme,
 	}
 	h.render(w, "about.html", data)
+}
+
+func (h *Handler) Docs(w http.ResponseWriter, r *http.Request) {
+	theme := middleware.GetTheme(r)
+	baseURL := h.cfg.BaseURL
+	if baseURL == "" {
+		scheme := "http"
+		if r.TLS != nil || r.Header.Get("X-Forwarded-Proto") == "https" {
+			scheme = "https"
+		}
+		baseURL = scheme + "://" + r.Host
+	}
+	data := PageData{
+		Theme:      theme,
+		ThemeClass: theme,
+		BaseURL:    baseURL,
+	}
+	h.render(w, "docs.html", data)
 }
 
 func (h *Handler) ViewDocument(w http.ResponseWriter, r *http.Request) {

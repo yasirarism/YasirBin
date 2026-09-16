@@ -48,6 +48,8 @@ func main() {
 
 	// Page routes
 	mux.HandleFunc("/about", h.About)
+	mux.HandleFunc("/docs", h.Docs)
+	mux.HandleFunc("/api-docs", h.Docs)
 	mux.HandleFunc("/raw/", h.RawDocument)
 	mux.HandleFunc("/", h.Home)
 

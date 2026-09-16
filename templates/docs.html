@@ -1,0 +1,87 @@
+{{template "head" .}}
+<header hx-boost="true" class="flex flex-wrap flex-shrink-0 min-h-8 mx-8 py-1 justify-center md:justify-between items-center bg-primary gap-4">
+{{template "logo" .}}
+</header>
+<article class="w-full h-[calc(100vh-6rem)] px-8 py-4 space-y-6 overflow-y-scroll bg-secondary text-primary">
+<div class="space-y-3 text-center">
+<h1 class="font-bold text-2xl font-mono"><span class="text-logo-green">&gt;_$ ./</span>&lt;<span class="text-logo-pink">Yasir</span><span class="text-logo-yellow">Bin</span><span class="text-logo-cyan">{0x1337}</span>/&gt; <span class="text-primary">API</span></h1>
+<p class="text-secondary">Official REST API documentation and CLI integration guide for YasirBin.</p>
+</div>
+
+<!-- Usage Section -->
+<div class="flex flex-col gap-4">
+<div class="p-4 bg-primary rounded-lg space-y-4">
+<h3 class="font-bold text-lg text-center">🚀 API Usage</h3>
+<p class="text-secondary">You can create a new document by sending a POST request to the <code>/api/document</code> endpoint. The API accepts both <code>application/x-www-form-urlencoded</code> (form-data) and <code>application/json</code> content types.</p>
+<hr class="border-primary">
+<div>
+<h4 class="font-semibold text-lg">Using Form Data</h4>
+<p class="text-secondary text-sm mb-2">The following examples use the `curl` command to create pastes with form data.</p>
+<h5 class="font-semibold mt-2">Basic Paste</h5>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -d "content=Hello from form-data" {{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/api/document</code></pre>
+<h5 class="font-semibold mt-2">With Password</h5>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -d "content=This is a secret paste" -d "password=supersecret" {{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/api/document</code></pre>
+<h5 class="font-semibold mt-2">With Expiration</h5>
+<p class="text-secondary text-sm">You can set `expires` to `1d`, `7d`, or `30d`.</p>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -d "content=This will expire in 1 day" -d "expires=1d" {{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/api/document</code></pre>
+<h5 class="font-semibold mt-2">With Password and Expiration</h5>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -d "content=Secret expiring paste" -d "password=supersecret" -d "expires=7d" {{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/api/document</code></pre>
+</div>
+<hr class="border-primary">
+<div>
+<h4 class="font-semibold text-lg">Using JSON</h4>
+<p class="text-secondary text-sm mb-2">The following examples use the `curl` command to create pastes with JSON data.</p>
+<h5 class="font-semibold mt-2">Basic Paste</h5>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -H "Content-Type: application/json" -d '{"content":"Hello from JSON"}' {{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/api/document</code></pre>
+<h5 class="font-semibold mt-2">With Password</h5>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -H "Content-Type: application/json" -d '{"content":"This is a secret paste","password":"supersecret"}' {{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/api/document</code></pre>
+<h5 class="font-semibold mt-2">With Expiration</h5>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -H "Content-Type: application/json" -d '{"content":"This will expire in 1 day","expires":"1d"}' {{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/api/document</code></pre>
+<h5 class="font-semibold mt-2">With Password and Expiration</h5>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -H "Content-Type: application/json" -d '{"content":"Secret expiring paste","password":"supersecret","expires":"7d"}' {{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/api/document</code></pre>
+</div>
+<hr class="border-primary">
+<div>
+<h4 class="font-semibold text-lg">From a File</h4>
+<p class="text-secondary text-sm mb-2">This is the recommended method for uploading files.</p>
+<h5 class="font-semibold mt-2">Basic Upload</h5>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST --data-urlencode "content@Dockerfile" {{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/api/document</code></pre>
+<h5 class="font-semibold mt-2">With Password and Expiration</h5>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST --data-urlencode "content@Dockerfile" -d "password=supersecret" -d "expires=7d" {{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/api/document</code></pre>
+</div>
+<hr class="border-primary">
+<div>
+<h4 class="font-semibold text-lg">Example Response</h4>
+<p class="text-secondary text-sm mb-2">A successful request will return the following JSON response:</p>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>{
+  "ok": true,
+  "message": "succesfully created document",
+  "data": {
+    "url": "{{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/some-random-slug",
+    "length": 123,
+    "date": "2026-09-16T12:10:00Z",
+    "expire_at": "2026-10-16T12:10:00Z"
+  }
+}</code></pre>
+</div>
+<hr class="border-primary">
+<div>
+<h4 class="font-semibold text-lg">Get a Document</h4>
+<p class="text-secondary text-sm mb-2">To retrieve a document's content, you can use the `/api/document` endpoint with the document's slug as the `key` query parameter.</p>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl "{{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/api/document?key=&lt;your-document-slug&gt;"</code></pre>
+</div>
+<div>
+<h4 class="font-semibold text-lg">Get Raw Content</h4>
+<p class="text-secondary text-sm mb-2">To get the raw content of a paste for piping or redirection.</p>
+<h5 class="font-semibold mt-2">Public Paste</h5>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl {{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/raw/some-random-slug</code></pre>
+<h5 class="font-semibold mt-2">Password-Protected Paste</h5>
+<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl "{{if .BaseURL}}{{.BaseURL}}{{else}}https://YOUR_DOMAIN{{end}}/raw/some-random-slug?password=supersecret"</code></pre>
+</div>
+</div>
+</div>
+</article>
+{{template "footer" .}}
+{{template "scripts" .}}
+</body>
+</html>

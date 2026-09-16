@@ -16,7 +16,7 @@
 <p><b>Syntax Highlighting:</b> Pastes are automatically highlighted for a wide variety of programming languages, with line numbers for readability.</p>
 <p><b>Password Protection:</b> Secure your pastes with a password. Only those with the password can view the content.</p>
 <p><b>Expiring Pastes:</b> Set an expiration date for your pastes. They will be automatically deleted after the specified time.</p>
-<p><b>CLI Support:</b> Easily create pastes from your terminal using `curl` or other tools.</p>
+<p><b>CLI & API Support:</b> Easily create pastes from your terminal using `curl` or other HTTP clients.</p>
 <p><b>Dark Mode:</b> A comfortable, dark theme for your eyes.</p>
 </div>
 </div>
@@ -35,75 +35,10 @@
 <h3 class="font-bold text-lg text-center">🔐 Security</h3>
 <p class="text-secondary">While YasirBin provides tools like password protection and expiring links, it should be treated as a public pastebin. We cannot guarantee that your documents will not be discovered by others. Therefore, we strongly advise against storing any sensitive information, such as passwords, API keys, or personal data.</p>
 </div>
-<!-- Usage Section -->
-<div class="p-4 bg-primary rounded-lg space-y-4">
-<h3 class="font-bold text-lg text-center">🚀 API Usage</h3>
-<p class="text-secondary">You can create a new document by sending a POST request to the <code>/api/document</code> endpoint. The API accepts both <code>application/x-www-form-urlencoded</code> (form-data) and <code>application/json</code> content types.</p>
-<hr class="border-primary">
-<div>
-<h4 class="font-semibold text-lg">Using Form Data</h4>
-<p class="text-secondary text-sm mb-2">The following examples use the `curl` command to create pastes with form data.</p>
-<h5 class="font-semibold mt-2">Basic Paste</h5>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -d "content=Hello from form-data" https://YOUR_DOMAIN/api/document</code></pre>
-<h5 class="font-semibold mt-2">With Password</h5>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -d "content=This is a secret paste" -d "password=supersecret" https://YOUR_DOMAIN/api/document</code></pre>
-<h5 class="font-semibold mt-2">With Expiration</h5>
-<p class="text-secondary text-sm">You can set `expires` to `1d`, `7d`, or `30d`.</p>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -d "content=This will expire in 1 day" -d "expires=1d" https://YOUR_DOMAIN/api/document</code></pre>
-<h5 class="font-semibold mt-2">With Password and Expiration</h5>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -d "content=Secret expiring paste" -d "password=supersecret" -d "expires=7d" https://YOUR_DOMAIN/api/document</code></pre>
-</div>
-<hr class="border-primary">
-<div>
-<h4 class="font-semibold text-lg">Using JSON</h4>
-<p class="text-secondary text-sm mb-2">The following examples use the `curl` command to create pastes with JSON data.</p>
-<h5 class="font-semibold mt-2">Basic Paste</h5>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -H "Content-Type: application/json" -d '{"content":"Hello from JSON"}' https://YOUR_DOMAIN/api/document</code></pre>
-<h5 class="font-semibold mt-2">With Password</h5>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -H "Content-Type: application/json" -d '{"content":"This is a secret paste","password":"supersecret"}' https://YOUR_DOMAIN/api/document</code></pre>
-<h5 class="font-semibold mt-2">With Expiration</h5>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -H "Content-Type: application/json" -d '{"content":"This will expire in 1 day","expires":"1d"}' https://YOUR_DOMAIN/api/document</code></pre>
-<h5 class="font-semibold mt-2">With Password and Expiration</h5>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST -H "Content-Type: application/json" -d '{"content":"Secret expiring paste","password":"supersecret","expires":"7d"}' https://YOUR_DOMAIN/api/document</code></pre>
-</div>
-<hr class="border-primary">
-<div>
-<h4 class="font-semibold text-lg">From a File</h4>
-<p class="text-secondary text-sm mb-2">This is the recommended method for uploading files.</p>
-<h5 class="font-semibold mt-2">Basic Upload</h5>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST --data-urlencode "content@Dockerfile" https://YOUR_DOMAIN/api/document</code></pre>
-<h5 class="font-semibold mt-2">With Password and Expiration</h5>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl -X POST --data-urlencode "content@Dockerfile" -d "password=supersecret" -d "expires=7d" https://YOUR_DOMAIN/api/document</code></pre>
-</div>
-<hr class="border-primary">
-<div>
-<h4 class="font-semibold text-lg">Example Response</h4>
-<p class="text-secondary text-sm mb-2">A successful request will return the following JSON response:</p>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>{
-  "ok": true,
-  "message": "succesfully created document",
-  "data": {
-    "url": "https://YOUR_DOMAIN/some-random-slug",
-    "length": 123,
-    "date": "2025-09-29T12:10:00Z",
-    "expire_at": "2025-09-30T12:10:00Z"
-  }
-}</code></pre>
-</div>
-<hr class="border-primary">
-<div>
-<h4 class="font-semibold text-lg">Get a Document</h4>
-<p class="text-secondary text-sm mb-2">To retrieve a document's content, you can use the `/api/document` endpoint with the document's slug as the `key` query parameter.</p>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl "https://YOUR_DOMAIN/api/document?key=&lt;your-document-slug&gt;"</code></pre>
-</div>
-<div>
-<h4 class="font-semibold text-lg">Get Raw Content</h4>
-<p class="text-secondary text-sm mb-2">To get the raw content of a paste for piping or redirection.</p>
-<h5 class="font-semibold mt-2">Public Paste</h5>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl https://YOUR_DOMAIN/raw/some-random-slug</code></pre>
-<h5 class="font-semibold mt-2">Password-Protected Paste</h5>
-<pre class="pl-4 py-2 my-2 overflow-auto bg-secondary rounded"><code>curl "https://YOUR_DOMAIN/raw/some-random-slug?password=supersecret"</code></pre>
-</div>
+<!-- API Banner Card -->
+<div class="p-4 bg-primary rounded-lg space-y-2 text-center">
+<h3 class="font-bold text-lg">🚀 Developer API</h3>
+<p class="text-secondary">Integrate YasirBin directly with terminal scripts or apps. Visit the <a href="/docs" class="text-hover font-semibold hover:underline">API Documentation</a> for endpoints and curl examples.</p>
 </div>
 </div>
 </article>
