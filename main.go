@@ -14,25 +14,25 @@ import (
 func main() {
 	cfg := config.Load()
 
-	db, err := database.New(cfg.DBPath)
+	store, err := database.New(cfg)
 	if err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}
-	defer db.Close()
+	defer store.Close()
 
 	// Start cleanup goroutine
 	go func() {
 		ticker := time.NewTicker(time.Duration(cfg.CleanupMin) * time.Minute)
 		defer ticker.Stop()
 		for range ticker.C {
-			n := db.CleanExpired()
+			n := store.CleanExpired()
 			if n > 0 {
-				log.Printf("Cleaned up %d expired documents", n)
+				log.Printf("[%s] Cleaned up %d expired documents", store.Driver(), n)
 			}
 		}
 	}()
 
-	h := handler.New(db, cfg)
+	h := handler.New(store, cfg)
 
 	mux := http.NewServeMux()
 

@@ -40,7 +40,9 @@ CGO_ENABLED=1 go build -o yasirbin .
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `PORT` | `3000` | Server port |
-| `DB_PATH` | `./data/yasirbin.db` | SQLite database path |
+| `MONGODB_URI` | (none) | MongoDB connection string (e.g. `mongodb://...` or `mongodb+srv://...`). Falls back to SQLite if empty or unreachable |
+| `MONGODB_DATABASE` | `yasirbin` | MongoDB database name |
+| `DB_PATH` | `./data/yasirbin.db` | SQLite database path (used when MongoDB is not configured or fails) |
 | `BASE_URL` | (auto-detect) | Base URL for generated links |
 | `MAX_SIZE` | `1048576` | Max paste size in bytes (1MB) |
 

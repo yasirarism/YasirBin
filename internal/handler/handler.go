@@ -3,6 +3,7 @@ package handler
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"html/template"
 	"log"
@@ -19,12 +20,12 @@ import (
 )
 
 type Handler struct {
-	db   *database.DB
+	db   database.Store
 	cfg  *config.Config
 	tmpl *template.Template
 }
 
-func New(db *database.DB, cfg *config.Config) *Handler {
+func New(db database.Store, cfg *config.Config) *Handler {
 	funcMap := template.FuncMap{
 		"add": func(a, b int) int { return a + b },
 		"currentYear": func() int { return time.Now().Year() },
@@ -177,7 +178,7 @@ func (h *Handler) APIGetDocument(w http.ResponseWriter, r *http.Request) {
 
 	doc, err := h.db.GetBySlug(key)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, database.ErrNotFound) || err == sql.ErrNoRows {
 			h.jsonError(w, http.StatusNotFound, "document not found")
 		} else {
 			h.jsonError(w, http.StatusInternalServerError, "database error")
@@ -330,7 +331,7 @@ func (h *Handler) ViewDocument(w http.ResponseWriter, r *http.Request) {
 
 	doc, err := h.db.GetBySlug(slug)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, database.ErrNotFound) || err == sql.ErrNoRows {
 			data := PageData{Theme: theme, ThemeClass: theme, Error: "Document not found"}
 			w.WriteHeader(http.StatusNotFound)
 			h.render(w, "error.html", data)
@@ -403,7 +404,7 @@ func (h *Handler) RawDocument(w http.ResponseWriter, r *http.Request) {
 
 	doc, err := h.db.GetBySlug(slug)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, database.ErrNotFound) || err == sql.ErrNoRows {
 			http.Error(w, "Document not found", http.StatusNotFound)
 		} else {
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
